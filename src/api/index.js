@@ -55,3 +55,33 @@ export async function getPhotoCateListData(id) {
 export async function getPhotoThumbData(id) {
     return await instance.get(`/getthumbimages/${id}`);
 }
+export async function getshoppingData(ids) {
+    return await instance.get(`/getshopcarlist/${ids}`);
+}
+
+export async function addUser(user) {
+    return await instance.post(`/register`, user);
+}
+export async function login(user) {
+    return await instance.post(`/login`, user);
+}
+//获取用户所有的收货地址
+export async function getaddress(id) {
+    return await instance.get(`/getaddress/${id}?v=${Math.random()}`)
+        // return await instance.get(`/getaddress/${id}`);
+}
+//添加用户收货地址
+export async function addaddress(userid, addressInfo) {
+    return await instance.post(`/addaddress/${userid}`, addressInfo);
+}
+
+// 删除用户收货地址
+export async function deleteAddress(id) {
+
+    return await instance.post(`/deladdress/${id}`)
+}
+// 修改用户收货地址
+export async function updateAddress(id, addressInfo) {
+    console.log(id);
+    return await instance.post(`/updateaddress/${id}`, addressInfo)
+}

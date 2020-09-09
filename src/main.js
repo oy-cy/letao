@@ -9,8 +9,11 @@ Vue.use(Lazyload, {
 import '@/util/filter.js';
 
 Vue.config.productionTip = false
+import store from "@/store/carStore";
+
 
 new Vue({
     router,
+    store,
     render: h => h(App)
 }).$mount('#app')

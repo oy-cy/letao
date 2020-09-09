@@ -21,26 +21,12 @@
         <!-- 底部 -->
         <van-tabbar v-model="active" v-show="isTable" >
             <van-tabbar-item to="/home" icon="wap-home-o">首页</van-tabbar-item>
-                <van-tabbar-item to="/mycar" icon="cart-o" badge="20">
+                <van-tabbar-item to="/mycar" icon="cart-o" :badge="$store.getters.carTotal">
                     我的购物车
                 </van-tabbar-item>
             <van-tabbar-item to="/user" icon="user-o">我的乐淘</van-tabbar-item>
         </van-tabbar>
 
-        <van-goods-action v-show="isAction">
-             <van-goods-action-icon icon="chat-o" text="客服" dot />
-            <van-goods-action-icon
-                icon="cart-o"
-                text="购物车"
-                @click="onClickIcon"
-            />
-            <van-goods-action-button type="warning" text="加入购物车" />
-            <van-goods-action-button
-                type="danger"
-                text="立即购买"
-                @click="onClickButton"
-            />
-        </van-goods-action>
 
         <van-button type="default" class="logOut" block v-show="isButton" @click="loginOut" >退出登录</van-button>
     </div>
@@ -67,7 +53,6 @@ export default {
             active: 0,
             title: "",
             isTable:true,
-            isAction:true,
             isButton:true,
             isHeader:true,
         };
@@ -84,6 +69,7 @@ export default {
                 })
                 .then(() => {
                     // on confirm
+                    this.$router.push("/login");
                 })
                 .catch(() => {
                     // on cancel
@@ -92,24 +78,19 @@ export default {
         changeButtom(){
             this.isButtom = !isButtom;
         },
-        onClickIcon(){
 
-        },
-        onClickButton(){},
         getPath(){
             var path = this.$route.path
-            console.log(path);
             var header = /home/
             var goodsDetail = /goodsDetail/
             var user = /user/
             if(goodsDetail.test(path)){
                 this.isTable = this.isButton = false;
-                this.isAction = true;
             }else if(user.test(path)){
-                this.isTable = this.isAction = false;
+                this.isTable = false;
                 this.isButton = true;
             }else{
-                this.isButton = this.isAction = false;
+                this.isButton = false;
                 this.isTable = true;
 
             }

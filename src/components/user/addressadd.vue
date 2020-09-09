@@ -14,7 +14,8 @@
 </template>
 
 <script>
-import { AddressEdit } from "vant";
+import { AddressEdit,Toast } from "vant";
+import { addaddress } from "@/api/index.js";
 import areaList from "@/assets/js/area.js";
 export default {
     data() {
@@ -24,8 +25,22 @@ export default {
         };
     },
     methods: {
-        onSave() {
-            Toast("save");
+        async onSave(addressInfo) {
+
+        addressInfo.country = addressInfo.county;
+        if(addressInfo.isDefault == true){
+            addressInfo.isDefault = 1;
+        }else{
+            addressInfo.isDefault = 0;
+        }
+        var userInfo = JSON.parse(localStorage.getItem('userInfo'));
+        var user_id = userInfo.id;
+        // 调用地址
+        var { status,message } = await addaddress(user_id,addressInfo);
+         this.$toast(message)
+        if(status == 0){
+            this.$router.push('/address')
+        }
         },
         onDelete() {
             Toast("delete");

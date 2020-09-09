@@ -3,7 +3,7 @@
     <van-cell-group>
         <van-cell class="_flex">
             <div class="img"><img src="@/assets/logo.png" alt=""></div>
-            <div class="username">用户名 : 绿藻头</div>
+            <div class="username">用户名 : {{username}}</div>
         </van-cell>
         <van-cell title="修改密码" is-link />
         <van-cell title="我的订单" is-link  to="/order" />
@@ -22,7 +22,7 @@
   export default {
       data() {
           return {
-
+              username:'绿藻头'
           }
       },
       components:{
@@ -32,6 +32,8 @@
       },
 
       created(){
+        var userInfo = JSON.parse(localStorage.getItem('userInfo'));
+        this.username = userInfo.username;
         this.$parent.title = "我的乐淘";
         // this.$parent.active = -1;
       }

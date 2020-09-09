@@ -35,6 +35,22 @@
             <van-divider>介绍</van-divider>
             <div class="content" v-html="goodsDetailInfo.content"></div>
         </div>
+
+        <van-goods-action >
+             <van-goods-action-icon icon="chat-o" text="客服" dot />
+            <van-goods-action-icon
+                icon="cart-o"
+                text="购物车"
+                to="/mycar"
+                :badge="$store.getters.carTotal"
+            />
+            <van-goods-action-button type="warning" @click="addCar" text="加入购物车" />
+            <van-goods-action-button
+                type="danger"
+                text="立即购买"
+                @click="onClickButton"
+            />
+        </van-goods-action>
     </div>
 </template>
 
@@ -54,7 +70,10 @@ export default {
         "van-swipe": Swipe,
         "van-swipe-item": SwipeItem,
         "van-divider": Divider,
-        "van-stepper": Stepper
+        "van-stepper": Stepper,
+        "van-goods-action": GoodsAction,
+        "van-goods-action-icon": GoodsActionIcon,
+        "van-goods-action-button": GoodsActionButton,
     },
     methods: {
         async getGoodsDetailData() {
@@ -64,14 +83,22 @@ export default {
             this.goodsDetailImg = img.message;
             this.goodsDetailInfo = info.message;
 
-            // console.log(this.GoodsDetailData);
-        }
+        },
+        addCar(){
+        var goods = {
+            id: this.goodsDetailInfo.id,
+            number: this.value,
+            price: this.goodsDetailInfo.sell_price,
+            selected: true
+        };
+        this.$store.commit('addCar',goods)
+        },
+        onClickButton(){},
     },
     created() {
         this.getGoodsDetailData();
         this.$parent.title = "商品详情";
         this.$parent.active = -1;
-        // this.$parent.hideHeader();
     }
 };
 </script>

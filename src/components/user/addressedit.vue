@@ -2,6 +2,7 @@
     <div class="addressedit_container">
         <van-address-edit
             :area-list="areaList"
+            :address-info="addressInfo"
             show-postal
             show-delete
             show-set-default
@@ -16,24 +17,47 @@
 </template>
 
 <script>
-import { AddressEdit,Toast } from "vant";
+import { AddressEdit, Toast } from "vant";
+import { updateAddress, deleteAddress } from "@/api/index.js";
 import areaList from "@/assets/js/area.js";
 export default {
     data() {
-        props:['item']
+        props: ["item"];
         return {
             areaList,
             searchResult: [],
-            // item:this.$route.parmas.item
+            addressInfo: JSON.parse(this.$route.params.addressInfo)
         };
     },
     methods: {
-        onSave() {
-            Toast("save");
-
+        async onSave(addressInfo) {
+            console.log("保存");
+            addressInfo.country = addressInfo.county;
+            if (addressInfo.isDefault == true) {
+                addressInfo.isDefault = 1;
+            } else {
+                addressInfo.isDefault = 0;
+            }
+            var id = this.addressInfo.id;
+            // 调用地址
+            var { status, message } = await updateAddress(id, addressInfo);
+            if (status == 0) {
+                Toast(message);
+                this.$router.push("/address");
+            } else {
+                Toast(message);
+            }
         },
-        onDelete() {
-            Toast("delete");
+        async onDelete() {
+            var id = this.addressInfo.id;
+            // 调用地址
+            var { status, message } = await deleteAddress(id);
+            if (status == 0) {
+                Toast(message);
+                this.$router.push("/address");
+            } else {
+                Toast(message);
+            }
         },
         onChangeDetail(val) {
             if (val) {
@@ -48,8 +72,8 @@ export default {
             }
         }
     },
-    components:{
-        "van-address-edit":AddressEdit
+    components: {
+        "van-address-edit": AddressEdit
     }
 };
 </script>

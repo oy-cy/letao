@@ -33,7 +33,7 @@ const routes = [
     { path: "/login", component: login },
     { path: "/registered", component: registered },
     { path: "/order", component: order },
-    { path: "/addressedit/:item", component: addressedit, props: true },
+    { path: '/addressedit/:addressInfo', component: addressedit },
 ]
 
 const router = new VueRouter({
