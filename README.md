@@ -1,5 +1,7 @@
 # letao
 
+### 这是一个测试用的商城项目 
+
 ## Project setup
 ```
 npm install
@@ -22,3 +24,4 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
